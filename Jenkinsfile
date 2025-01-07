@@ -66,13 +66,13 @@ pipeline {
 		stage('Update GitOps Repo'){
 			steps {
 				sh '''
-					sed -i "s/dockerImage/dockerImage-$BUILD_NUMBER/g" manifests/deployment.yaml
+					sed -i "s/dockerImage/$BUILD_NUMBER/g" manifests/deployment.yaml
 					
 					git config --global user.email 'iquantconsult@gmail.com'
 					git config --global user.name 'iQuantC'
 					git remote set-url origin 'https://$git-cred@github.com/iQuantC/Jenkins-ArgoCD-GitOps.git'
 					git add .
-					git commit -m "Updated image to dockerImage-$BUILD_NUMBER"
+					git commit -m "Updated image to $BUILD_NUMBER"
 					git push origin main
 				'''
 			}
