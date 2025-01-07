@@ -63,7 +63,24 @@ pipeline {
 				}
 			}
 		}
-	}
+		stage('Update GitOps Repo'){
+			steps {
+				sh '''
+					sed -i "s/dockerImage/dockerImage-$BUILD_NUMBER/g" manifests/deployment.yaml
+					git add .
+					git commit -m "Updated image to dockerImage-$BUILD_NUMBER"
+					git push origin main
+				'''
+			}
+		}
+		stage('Deploy via ArgoCD'){
+                        steps {
+                                script {
+                                                sh 'kubectl apply -f argocd-app.yaml'
+                                        }
+                                }
+                        }
+		}
 
 	post {
 		success {
