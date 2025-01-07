@@ -67,6 +67,9 @@ pipeline {
 			steps {
 				sh '''
 					sed -i "s/dockerImage/dockerImage-$BUILD_NUMBER/g" manifests/deployment.yaml
+					
+					git config --global user.email 'iquantconsult@gmail.com'
+					git config --global user.name 'iQuantC'
 					git add .
 					git commit -m "Updated image to dockerImage-$BUILD_NUMBER"
 					git push origin main
