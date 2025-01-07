@@ -58,6 +58,7 @@ pipeline {
 				script {
 					kubeconfig(credentialsId: 'kubeconf', serverUrl: 'https://192.168.49.2:8443') {		
     						sh 'kubectl apply -f manifests/deployment.yaml'
+						sh 'kubectl apply -f manifests/service.yaml'
 					}
 				}
 			}
