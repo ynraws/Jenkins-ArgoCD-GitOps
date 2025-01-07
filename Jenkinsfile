@@ -3,10 +3,10 @@ pipeline {
 	tools {
 		nodejs 'NodeJS'
 	}
-	//environment {
+	environment {
 		//DOCKER_HUB_CREDENTIALS_ID = 'jen-dockerhub'
-		//DOCKER_HUB_REPO = 'iquantc/iquant-app'
-	//}
+		DOCKER_HUB_REPO = 'iquantc/iquant-app'
+	}
 	stages {
 		stage('Checkout Github'){
 			steps {
@@ -23,13 +23,13 @@ pipeline {
 				sh 'npm test'
 			}
 		}
-		//stage('Build Docker Image'){
-		//	steps {
-		//		script {
-					//dockerImage = docker.build("${DOCKER_HUB_REPO}:latest")
-		//		}
-		//	}
-		//}
+		stage('Build Docker Image'){
+			steps {
+				script {
+					dockerImage = docker.build("${DOCKER_HUB_REPO}:latest")
+				}
+			}
+		}
 		//stage('Trivy Scan'){
 		//	steps {
 				//#sh 'trivy --severity HIGH,CRITICAL --no-progress image --format table -o trivy-scan-report.txt ${DOCKER_HUB_REPO}:latest'
