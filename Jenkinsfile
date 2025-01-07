@@ -4,7 +4,7 @@ pipeline {
 		nodejs 'NodeJS'
 	}
 	environment {
-		//DOCKER_HUB_CREDENTIALS_ID = 'jen-dockerhub'
+		DOCKER_HUB_CREDENTIALS_ID = 'jen-dockerhub'
 		DOCKER_HUB_REPO = 'iquantc/iquant-app'
 	}
 	stages {
@@ -35,15 +35,15 @@ pipeline {
 				sh 'trivy --severity HIGH,CRITICAL --no-progress image --skip-update --format table -o trivy-scan-report.txt ${DOCKER_HUB_REPO}:latest'
 			}
 		}
-		//stage('Push Image to DockerHub'){
-		//	steps {
-		//		script {
-					//#docker.withRegistry('https://registry.hub.docker.com', "${DOCKER_HUB_CREDENTIALS_ID}"){
-					//#	dockerImage.push('latest')
-					//}
-		//		}
-		//	}
-		//}
+		stage('Push Image to DockerHub'){
+			steps {
+				script {
+					docker.withRegistry('https://registry.hub.docker.com', "${DOCKER_HUB_CREDENTIALS_ID}"){
+						dockerImage.push('latest')
+					}
+				}
+			}
+		}
 		//stage('Install Kubectl'){
 		//	steps {
 				//sh '''
