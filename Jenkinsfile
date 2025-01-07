@@ -70,6 +70,7 @@ pipeline {
 					
 					git config --global user.email 'iquantconsult@gmail.com'
 					git config --global user.name 'iQuantC'
+					git remote set-url origin 'https://$git-cred@github.com/iQuantC/Jenkins-ArgoCD-GitOps.git'
 					git add .
 					git commit -m "Updated image to dockerImage-$BUILD_NUMBER"
 					git push origin main
