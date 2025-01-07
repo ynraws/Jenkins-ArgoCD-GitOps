@@ -74,18 +74,17 @@ pipeline {
 					git add .
 					git commit -m "Updated image to $BUILD_NUMBER"
 					git push origin main
+					kubectl apply -f argocd-app.yaml --validate=false
 					'''
 				}
 			}
 		}
-		stage('Deploy via ArgoCD'){
-                        steps {
-                                script {
-                                                sh "kubectl apply -f argocd-app.yaml --validate=false"
-                                        }
-                                }
-                        }
-		}
+		//stage('Deploy via ArgoCD'){
+                //        steps {
+                //             	sh "kubectl apply -f argocd-app.yaml --validate=false"
+                //        }
+               //}
+	}
 
 	post {
 		success {
