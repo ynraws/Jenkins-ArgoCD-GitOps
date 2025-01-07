@@ -65,16 +65,17 @@ pipeline {
 		}
 		stage('Update GitOps Repo'){
 			steps {
-				sh '''
+				withCredentials([gitUsernamePassword(credentialsId: 'git-cred', gitToolName: 'Default')]) {
+
+					sh '''
 					sed -i "s/dockerImage/$BUILD_NUMBER/g" manifests/deployment.yaml
-					
-					git config --global user.email 'iquantconsult@gmail.com'
-					git config --global user.name 'iQuantC'
-					git remote set-url origin 'https://$git-cred@github.com/iQuantC/Jenkins-ArgoCD-GitOps.git'
+					git config credential.helper store
+					echo "https://$GIT_USERNAME:$GIT_PASSWORD@github.com" > ~/.git-credentials
 					git add .
 					git commit -m "Updated image to $BUILD_NUMBER"
 					git push origin main
-				'''
+					'''
+				}
 			}
 		}
 		stage('Deploy via ArgoCD'){
