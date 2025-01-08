@@ -32,8 +32,8 @@ pipeline {
 		}
 		stage('Trivy Scan'){
 			steps {
-				sh 'trivy --severity HIGH,CRITICAL --no-progress image --format table -o trivy-scan-report.txt ${DOCKER_HUB_REPO}:latest'
-				//sh 'trivy --severity HIGH,CRITICAL --no-progress image --skip-update --format table -o trivy-scan-report.txt ${DOCKER_HUB_REPO}:latest'
+				//sh 'trivy --severity HIGH,CRITICAL --no-progress image --format table -o trivy-scan-report.txt ${DOCKER_HUB_REPO}:latest'
+				sh 'trivy --severity HIGH,CRITICAL --no-progress image --skip-update --format table -o trivy-scan-report.txt ${DOCKER_HUB_REPO}:latest'
 			}
 		}
 		stage('Push Image to DockerHub'){
@@ -54,7 +54,6 @@ pipeline {
 
 				curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
 				chmod +x /usr/local/bin/argocd
-				argocd version
 				'''
 			}
 		}
