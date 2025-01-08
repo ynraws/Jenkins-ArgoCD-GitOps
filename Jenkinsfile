@@ -64,7 +64,7 @@ pipeline {
     						//sh 'kubectl apply -f manifests/deployment.yaml'
 						//sh 'kubectl apply -f manifests/service.yaml'
 						sh '''
-						argocd login 54.165.246.202:31506 --username admin --password $(kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
+						argocd login 54.165.246.202:31506 --username admin --password $(kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d) --insecure
 						argocd app sync argojenkins
 						'''
 					}
