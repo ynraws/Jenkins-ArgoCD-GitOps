@@ -5,6 +5,7 @@ pipeline {
 			steps {
 				sh '''
 				echo 'checking out code...'
+				git branch: 'main', credentialsId: 'GitOps-token-GitHub', url: 'https://github.com/iQuantC/Jenkins-ArgoCD-GitOps.git'
 				''' 
 			}
 		}		
