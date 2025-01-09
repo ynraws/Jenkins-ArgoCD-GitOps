@@ -46,15 +46,19 @@ pipeline {
 			steps {
 				sh '''
 				echo 'installing ArgoCD cli...'
+				curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+				chmod +x /usr/local/bin/argocd
 				'''
 			}
 		}
 		stage('Apply Kubernetes Manifests & Sync App with ArgoCD'){
 			steps {
 				script {
-					sh '''
-					echo 'synchronizing app with ArgoCD...'
-					'''
+					kubeconfig(credentialsId: 'kubeconfig', serverUrl: 'https://192.168.49.2:8443') {
+    						sh '''
+						argocd login 44.211.76.138:31559 --username admin --password $(kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
+						'''
+						}	
 					}
 				}
 			}
