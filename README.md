@@ -51,6 +51,6 @@ A Jenkins container running outside the Minikube cluster.
 
 ArgoCD installed and configured in the Minikube cluster.
 
-
+NEw
 
 
